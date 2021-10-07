@@ -7,7 +7,7 @@ RSpec.describe PromotionRules::BuyOneGetOne do
   subject { create :buy_one_get_one }
 
   before do
-    cart.add_product product
+    cart.cart_items.create(product: product)
   end
 
   describe '#kind' do

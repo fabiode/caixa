@@ -2,6 +2,8 @@ require 'rails_helper'
 
 RSpec.describe Cart, type: :model do
   subject { create :cart }
+  let(:product) { create :product }
+
   describe 'associations' do
     it { is_expected.to have_many :cart_items }
     it { is_expected.to have_many(:products).through(:cart_items) }
@@ -9,7 +11,6 @@ RSpec.describe Cart, type: :model do
   end
 
   describe '#add_product' do
-    let(:product) { create :product }
     it { is_expected.to respond_to :add_product }
 
     context 'argument is not a product' do
@@ -27,12 +28,24 @@ RSpec.describe Cart, type: :model do
     end
 
     context 'when the product is already in the cart' do
-      before { subject.add_product(product) }
+      before { subject.cart_items.create(product: product) }
 
       it 'raises quantity of the cart item' do
-        expect { subject.add_product(product) }.to_not(change { CartItem.count })
         expect { subject.add_product(product) }.to change { subject.cart_items.first.quantity }.by 1
       end
+    end
+  end
+
+  describe '#recalculate_total_price' do
+    let(:other_product) { create :product, :coffee }
+    let(:final_price) { other_product.price + product.price }
+    before do
+      subject.add_product product
+      subject.add_product other_product
+    end
+
+    it 'sets total price based on each cart_items total_price' do
+      expect(subject.total_price).to eq final_price
     end
   end
 end

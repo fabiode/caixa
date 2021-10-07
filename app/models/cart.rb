@@ -6,6 +6,9 @@ class Cart < ApplicationRecord
 
   monetize :total_price_cents
 
+  after_touch :apply_promotions,
+              :recalculate_total_price
+
   def add_product(product)
     raise ArgumentError, 'must be an Product' unless product.is_a? Product
 
@@ -14,6 +17,8 @@ class Cart < ApplicationRecord
     else
       cart_items.create(product: product, quantity: 1)
     end
+
+    touch
   end
 
   private
@@ -27,7 +32,8 @@ class Cart < ApplicationRecord
   end
 
   def recalculate_total_price
-    self.total_price = Money.new(cart_items.sum(:price_cents))
+    self.total_price = cart_items.sum(&:total_price)
+    save!
   end
 
   def paid_cart_items

@@ -1,5 +1,6 @@
 class CartItem < ApplicationRecord
   belongs_to :product
+  belongs_to :cart
 
   monetize :price_cents
 
@@ -31,8 +32,8 @@ class CartItem < ApplicationRecord
     !promotional?
   end
 
-  def destroy(promo_bypass = false)
-    unless promo_bypass || destroyable?
+  def destroy(bypass: false)
+    unless bypass || destroyable?
       raise PromotionalItemError,
             <<-ES
               Promotional items cannot be destroyed by destroy.
@@ -44,10 +45,11 @@ class CartItem < ApplicationRecord
 
     # XXX:  () must be used for zeroing arguments
     super()
+    cart.touch
   end
 
   def destroy_promotional!
-    destroy(true)
+    destroy(bypass: true)
   end
 end
 

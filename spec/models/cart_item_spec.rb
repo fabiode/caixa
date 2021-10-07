@@ -1,11 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe CartItem, type: :model do
+  let(:cart) { create :cart }
   let(:product) { create :product }
-  subject { CartItem.create product_id: product.id }
+  subject { CartItem.create product_id: product.id, cart: cart }
 
   describe 'associations' do
     it { is_expected.to belong_to :product }
+    it { is_expected.to belong_to :cart }
   end
 
   describe 'validations' do
@@ -22,7 +24,7 @@ RSpec.describe CartItem, type: :model do
   end
 
   context 'promotional' do
-    subject { CartItem.create promotional: true, product: product }
+    subject { CartItem.create! promotional: true, product: product, cart: cart }
 
     describe '#destroy' do
       it 'raises cannot be destroyed' do
