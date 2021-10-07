@@ -1,6 +1,7 @@
 import './Product.css'
 import React from 'react'
 
+const apiUrl = `${process.env.REACT_APP_API_URL}:3000`
 const axios = require('axios').default
 
 class Product extends React.Component {
@@ -13,7 +14,7 @@ class Product extends React.Component {
   addToCart() {
     const cartId = parseInt(this.props.cartId)
     const productId = parseInt(this.props.productData.id)
-    axios.post(`//localhost:3000/carts/${cartId}/cart_items`, { product_id: productId })
+    axios.post(`${apiUrl}/carts/${cartId}/cart_items`, { product_id: productId })
       .then(response => {
         this.props.onAddToCart()
       })

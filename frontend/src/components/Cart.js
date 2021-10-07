@@ -3,6 +3,7 @@ import React, { Fragment } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { XIcon } from '@heroicons/react/outline'
 
+const apiUrl = `${process.env.REACT_APP_API_URL}:3000`
 const axios = require('axios').default
 
 class Cart extends React.Component {
@@ -29,7 +30,7 @@ class Cart extends React.Component {
 
   removeItemFromCart(itemId) {
 
-    axios.delete(`//localhost:3000/carts/${this.props.cartId}/cart_items/${itemId}`)
+    axios.delete(`${apiUrl}/carts/${this.props.cartId}/cart_items/${itemId}`)
       .then(response => {
         this.props.updateCallback()
       })

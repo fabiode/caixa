@@ -76,10 +76,7 @@ services:
       - 80:80
     stdin_open: true
     tty: true
-    # env_file: ./frontend/.env.development
-    # entrypoint: entrypoint.sh
     command: ["yarn", "start"]
-    environment:
-      RAILS_ENV: development
+    env_file: ./frontend/.env
     depends_on:
       - caixa_api

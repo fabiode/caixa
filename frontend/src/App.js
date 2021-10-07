@@ -4,6 +4,7 @@ import Cart from './components/Cart.js'
 import React from 'react'
 import { ShoppingCartIcon } from '@heroicons/react/solid'
 
+const apiUrl = `${process.env.REACT_APP_API_URL}:3000`
 const axios = require('axios').default
 
 class App extends React.Component {
@@ -26,10 +27,11 @@ class App extends React.Component {
   componentDidMount() {
     this.fetchProducts()
     this.fetchCart()
+    debugger
   }
 
   fetchProducts() {
-    axios.get(`//localhost:3000/products`)
+    axios.get(`${apiUrl}/products`)
       .then(response => {
         this.setState({
           products: response.data
@@ -39,7 +41,7 @@ class App extends React.Component {
   }
 
   fetchCart() {
-    axios.get(`//localhost:3000/`)
+    axios.get(`${apiUrl}`)
       .then(response => {
         this.setState({
           cartId: response.data.id,
