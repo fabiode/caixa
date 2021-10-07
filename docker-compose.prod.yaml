@@ -1,0 +1,64 @@
+version: '3'
+networks:
+  development:
+volumes:
+  db_data:
+  gem_cache:
+  shared_data:
+services:
+  caixa_db:
+    image: postgres:12.5-alpine
+    container_name: caixa_db
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      - shared_data:/var/shared
+    networks:
+      - development
+      - test
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+    ports:
+      - 5099:5432
+  caixa_api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: caixa_api
+    volumes:
+      - ./backend:/var/app
+      - shared_data:/var/shared
+      - gem_cache:/usr/local/bundle/gems
+    networks:
+      - development
+    ports:
+      - 3000:3000
+    stdin_open: true
+    tty: true
+    env_file: ./backend/.env.development
+    entrypoint: entrypoint.sh
+    command: ['rails', 'server', '-p', '3000', '-b', '0.0.0.0']
+    environment:
+      RAILS_ENV: development
+    depends_on:
+      - caixa_db
+  caixa_frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: caixa_frontend
+    volumes:
+      - ./frontend:/app
+    networks:
+      - development
+    ports:
+      - 80:80
+    stdin_open: true
+    tty: true
+    # env_file: ./frontend/.env.development
+    # entrypoint: entrypoint.sh
+    command: ["yarn", "start"]
+    environment:
+      RAILS_ENV: development
+    depends_on:
+      - caixa_api
