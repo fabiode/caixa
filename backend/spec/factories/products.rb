@@ -16,7 +16,7 @@ FactoryBot.define do
       name { 'Coffee' }
       description { 'The dark roasted scent of awakeness!' }
       price { 11.23 }
-      sku { 'SR1' }
+      sku { 'CF1' }
     end
   end
 end

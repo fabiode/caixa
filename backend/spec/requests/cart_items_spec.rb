@@ -7,7 +7,7 @@ RSpec.describe 'CartItems', type: :request do
   describe 'POST create' do
     it 'returns 200 with resource' do
       post cart_items_path(cart), params: { product_id: product.id }
-      expect(response.body).to match 'cart_id'
+      expect(response.body).to match 'id'
       expect(response.status).to eq 200
     end
   end
@@ -18,7 +18,7 @@ RSpec.describe 'CartItems', type: :request do
 
     it 'returns 200 with resource' do
       put cart_item_path(cart, cart_item), params: { cart_item: { quantity: 3 } }
-      expect(response.body).to match 'cart_id'
+      expect(response.body).to match 'id'
       expect(response.status).to eq 200
     end
   end

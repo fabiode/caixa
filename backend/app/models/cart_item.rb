@@ -14,10 +14,10 @@ class CartItem < ApplicationRecord
   scope :promotional, -> { where(promotional: true) }
 
   after_initialize :set_price, unless: :promotional?
-  after_initialize :set_quantity
+  after_initialize :set_quantity, unless: :promotional?
 
   def set_price
-    self.price = product.price if price == 0
+    self.price = product.price if price.zero?
   end
 
   def set_quantity
@@ -45,7 +45,8 @@ class CartItem < ApplicationRecord
 
     # XXX:  () must be used for zeroing arguments
     super()
-    cart.touch
+    cart.apply_promotions(product, self)
+    cart.recalculate_total_price
   end
 
   def destroy_promotional!

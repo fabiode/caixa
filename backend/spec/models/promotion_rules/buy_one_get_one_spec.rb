@@ -4,7 +4,7 @@ RSpec.describe PromotionRules::BuyOneGetOne do
   let(:cart) { create :cart }
   let(:cart_item) { cart.cart_items.find_by_product_id(product) }
   let(:product) { subject.products.first }
-  subject { create :buy_one_get_one }
+  subject! { create :buy_one_get_one }
 
   before do
     cart.cart_items.create(product: product)
@@ -35,12 +35,21 @@ RSpec.describe PromotionRules::BuyOneGetOne do
       expect(new_cart_item.price).to eq Money.new(0)
     end
 
-    context '#clear' do
-      before { allow(cart).to receive(:products).and_return([]) }
+    context 'existing promo item' do
+      it 'increment quantity' do
+        cart.add_product product
+        expect(new_cart_item.quantity).to eq 2
+      end
+    end
 
+    context '#clear' do
       it 'should destroy promotional item' do
+        expect(cart.cart_items.where(promotional: true).count).to eq 1
+        items = cart.cart_items.where(promotional: false)
+        items.destroy_all
+
         subject.apply(cart: cart, cart_item: cart_item)
-        expect(new_cart_item).to eq nil
+        expect(cart.cart_items.reload).to be_empty
       end
     end
   end

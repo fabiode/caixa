@@ -5,6 +5,8 @@ module PromotionRules
                   :product
 
     def apply(cart: nil, cart_item: nil)
+      return unless cart_item.persisted?
+
       @cart = cart
       @cart_item = cart_item
       @product = cart_item.product

@@ -24,7 +24,7 @@ RSpec.describe CartItem, type: :model do
   end
 
   context 'promotional' do
-    subject { CartItem.create! promotional: true, product: product, cart: cart }
+    subject { CartItem.create! promotional: true, product: product, cart: cart, quantity: 1 }
 
     describe '#destroy' do
       it 'raises cannot be destroyed' do

@@ -23,7 +23,7 @@ FactoryBot.define do
   end
 
   factory :bulk, class: PromotionRules::Bulk do
-    name { 'Three is a Charm! Straberries drops 0.50' }
+    name { 'Three is a Charm! Strawberries drops 0.50' }
     trait :strawberry do
       kind { 'amount' }
       amount { 0.50 }
@@ -37,7 +37,7 @@ FactoryBot.define do
       kind { 'percentage' }
       percentage { 33.3 }
 
-      name { 'Three is a Charm! Straberries drops 0.50' }
+      name { 'Three is a Charm! Coffee with 33% discount!' }
       after(:create) do |promo|
         promo.products << create(:product, :coffee)
       end

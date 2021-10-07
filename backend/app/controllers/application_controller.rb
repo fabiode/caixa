@@ -6,6 +6,6 @@ class ApplicationController < ActionController::API
   private
 
   def set_cart
-    @cart ||= Cart.find_or_create_by(id: params[:cart_id])
+    @cart ||= Cart.first || Cart.find_or_create_by(id: params[:cart_id])
   end
 end

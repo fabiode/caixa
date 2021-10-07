@@ -11,14 +11,11 @@ module PromotionRules
 
       clear and return false unless eligible?
 
-      new_item = cart_item.deep_dup
-      new_item.product = product
-
-      new_item.promotional = true
-      new_item.price = calculated_price(product.price)
-
-      new_item.save!
-      cart.cart_items << new_item
+      if existing_promo
+        existing_promo.increment!(:quantity, touch: true)
+      else
+        create_new_item
+      end
 
       true
     end
@@ -37,8 +34,23 @@ module PromotionRules
       cart.cart_items.where(product: product, promotional: true).each(&:destroy_promotional!)
     end
 
-    def eligible?(eligible_product = product)
-      cart.products.include?(eligible_product)
+    def existing_promo
+      cart.cart_items.find_by(product: product, promotional: true)
+    end
+
+    def create_new_item
+      new_item = CartItem.new(product: product)
+
+      new_item.cart = cart
+      new_item.quantity = 1
+      new_item.promotional = true
+      new_item.price = calculated_price(product.price)
+
+      new_item.save!
+    end
+
+    def eligible?
+      cart.cart_items.find_by(product: product, promotional: false)
     end
   end
 end
