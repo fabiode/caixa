@@ -23,11 +23,11 @@ services:
       - 5099:5432
   caixa_api:
     build:
-      context: .
+      context: ./backend
       dockerfile: Dockerfile
     container_name: caixa_api
     volumes:
-      - .:/var/app
+      - ./backend:/var/app
       - shared_data:/var/shared
       - gem_cache:/usr/local/bundle/gems
     networks:
@@ -36,7 +36,7 @@ services:
       - 3000:3000
     stdin_open: true
     tty: true
-    env_file: .env.development
+    env_file: ./backend/.env.development
     entrypoint: entrypoint.sh
     command: ['rails', 'server', '-p', '3000', '-b', '0.0.0.0']
     environment:
@@ -47,7 +47,7 @@ services:
     image: caixa_caixa_api
     container_name: caixa_api_test
     volumes:
-      - .:/var/app
+      - ./backend:/var/app
       - shared_data:/var/shared
       - gem_cache:/usr/local/bundle/gems
     networks:
@@ -56,7 +56,7 @@ services:
       - 3001:3000
     stdin_open: true
     tty: true
-    env_file: .env.test
+    env_file: ./backend/.env.test
     entrypoint: entrypoint.test.sh
     command: ["rails", "-v"]
     environment:
