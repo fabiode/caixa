@@ -24,7 +24,7 @@ RSpec.describe PromotionRule, type: :model do
     end
 
     it '#calculated_price' do
-      expect(subject.send(:calculated_price, Money.new(10_000))).to eq Money.new(6660)
+      expect(subject.send(:calculated_price, Money.new(10_000))).to eq Money.new(6670)
     end
   end
 

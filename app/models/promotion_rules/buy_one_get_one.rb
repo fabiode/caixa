@@ -23,20 +23,22 @@ module PromotionRules
       true
     end
 
-    def clear
-      cart.cart_items.where(product: product, promotional: true).each(&:destroy_promotional!)
-    end
-
-    def eligible?(eligible_product = product)
-      cart.products.include?(eligible_product)
-    end
-
     def kind
       'percentage'
     end
 
     def percentage
       100.0
+    end
+
+    private
+
+    def clear
+      cart.cart_items.where(product: product, promotional: true).each(&:destroy_promotional!)
+    end
+
+    def eligible?(eligible_product = product)
+      cart.products.include?(eligible_product)
     end
   end
 end

@@ -12,11 +12,11 @@ class CartItem < ApplicationRecord
   scope :paid, -> { where(promotional: false) }
   scope :promotional, -> { where(promotional: true) }
 
-  before_save :set_price, unless: :promotional?
+  after_initialize :set_price, unless: :promotional?
   after_initialize :set_quantity
 
   def set_price
-    self.price = product.price
+    self.price = product.price if price == 0
   end
 
   def set_quantity

@@ -18,7 +18,7 @@ class PromotionRule < ApplicationRecord
 
   def calculated_price(product_amount)
     if percentage_kind?
-      (product_amount * percentage) / 100
+      product_amount - (product_amount * percentage) / 100
     elsif amount_kind?
       product_amount - amount
     end

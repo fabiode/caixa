@@ -5,7 +5,7 @@ FactoryBot.define do
 
     trait :percentage do
       kind { 'percentage' }
-      percentage { 66.6 }
+      percentage { 33.3 }
     end
 
     trait :amount do
@@ -19,6 +19,28 @@ FactoryBot.define do
 
     after(:create) do |promo|
       promo.products << create(:product)
+    end
+  end
+
+  factory :bulk, class: PromotionRules::Bulk do
+    name { 'Three is a Charm! Straberries drops 0.50' }
+    trait :strawberry do
+      kind { 'amount' }
+      amount { 0.50 }
+
+      after(:create) do |promo|
+        promo.products << create(:product, :strawberry)
+      end
+    end
+
+    trait :coffee do
+      kind { 'percentage' }
+      percentage { 33.3 }
+
+      name { 'Three is a Charm! Straberries drops 0.50' }
+      after(:create) do |promo|
+        promo.products << create(:product, :coffee)
+      end
     end
   end
 end

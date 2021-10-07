@@ -36,8 +36,10 @@ RSpec.describe PromotionRules::BuyOneGetOne do
     end
 
     context '#clear' do
+      before { allow(cart).to receive(:products).and_return([]) }
+
       it 'should destroy promotional item' do
-        expect { subject.clear }.to change { CartItem.count }.by(-1)
+        subject.apply(cart: cart, cart_item: cart_item)
         expect(new_cart_item).to eq nil
       end
     end
