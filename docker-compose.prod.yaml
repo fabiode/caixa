@@ -52,6 +52,5 @@ services:
       - 80:80
     stdin_open: true
     tty: true
-    command: ["yarn", "start"]
     depends_on:
       - caixa_api
