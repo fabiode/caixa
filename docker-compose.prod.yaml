@@ -44,7 +44,7 @@ services:
   caixa_frontend:
     build:
       context: ./frontend
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.prod
     container_name: caixa_frontend
     networks:
       - development
