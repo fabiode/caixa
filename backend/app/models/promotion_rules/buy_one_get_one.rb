@@ -11,6 +11,8 @@ module PromotionRules
 
       clear and return false unless eligible?
 
+      # XXX: Ensure quantity is always 1. This is a hack. =(
+      existing_promo&.update_attribute(:quantity, 1)
       create_new_item unless existing_promo
 
       true
