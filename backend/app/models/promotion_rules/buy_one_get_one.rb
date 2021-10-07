@@ -11,11 +11,7 @@ module PromotionRules
 
       clear and return false unless eligible?
 
-      if existing_promo
-        existing_promo.increment!(:quantity, touch: true)
-      else
-        create_new_item
-      end
+      create_new_item unless existing_promo
 
       true
     end

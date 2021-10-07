@@ -23,7 +23,7 @@ FactoryBot.define do
   end
 
   factory :bulk, class: PromotionRules::Bulk do
-    name { 'Three is a Charm! Strawberries drops 0.50' }
+    name { 'Three is a Charm! Strawberries drops €0.50' }
     trait :strawberry do
       kind { 'amount' }
       amount { 0.50 }

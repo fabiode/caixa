@@ -14,9 +14,7 @@ class Cart extends React.Component {
 
     this.setOpen = this.setOpen.bind(this)
     this.handleRemove = this.handleRemove.bind(this)
-
   }
-
 
   componentWillUpdate() {
     if (this.state.open != true) {
@@ -106,7 +104,7 @@ class Cart extends React.Component {
                               <li key={item.id} className="py-6 flex">
                                 <div className="flex-shrink-0 w-24 h-24 border border-gray-200 rounded-md overflow-hidden">
                                   <img
-                                    src={item.imageSrc}
+                                    src='/dummy2.png'
                                     alt={item.imageAlt}
                                     className="w-full h-full object-center object-cover"
                                   />

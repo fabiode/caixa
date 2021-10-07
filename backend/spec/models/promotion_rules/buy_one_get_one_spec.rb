@@ -36,9 +36,9 @@ RSpec.describe PromotionRules::BuyOneGetOne do
     end
 
     context 'existing promo item' do
-      it 'increment quantity' do
+      it 'should not increment quantity' do
         cart.add_product product
-        expect(new_cart_item.quantity).to eq 2
+        expect(new_cart_item.quantity).to eq 1
       end
     end
 

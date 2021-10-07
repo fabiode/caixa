@@ -36,7 +36,7 @@ class Product extends React.Component {
       <div key={productData.id} className="Product shadow-sm bg-gray-100 border border-gray-200 rounded flex-col flex justify-between">
         <div className="group relative">
           <div className="w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 lg:h-80 lg:aspect-none">
-            <img src="https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg" alt="Front of men&#039;s Basic Tee in black." className="w-full h-full object-center object-cover lg:w-full lg:h-full" />
+            <img src="/dummy2.png" alt="Front of men&#039;s Basic Tee in black." className="w-full h-full object-center object-cover lg:w-full lg:h-full" />
           </div>
           <div className="m-4 flex justify-between">
             <div>
