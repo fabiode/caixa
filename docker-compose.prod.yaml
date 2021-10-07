@@ -14,7 +14,6 @@ services:
       - shared_data:/var/shared
     networks:
       - development
-      - test
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
@@ -39,7 +38,7 @@ services:
     entrypoint: entrypoint.sh
     command: ['rails', 'server', '-p', '3000', '-b', '0.0.0.0']
     environment:
-      RAILS_ENV: development
+      RAILS_ENV: production
     depends_on:
       - caixa_db
   caixa_frontend:
@@ -55,10 +54,6 @@ services:
       - 80:80
     stdin_open: true
     tty: true
-    # env_file: ./frontend/.env.development
-    # entrypoint: entrypoint.sh
     command: ["yarn", "start"]
-    environment:
-      RAILS_ENV: development
     depends_on:
       - caixa_api
