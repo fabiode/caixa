@@ -1,7 +1,7 @@
 class CartItem < ApplicationRecord
   belongs_to :product
 
-  monetize :price_cents, numericality: { greater_than: 0 }
+  monetize :price_cents
 
   with_options presence: true do
     validates :price_cents
@@ -9,20 +9,45 @@ class CartItem < ApplicationRecord
     validates :quantity, numericality: { greater_than: 0 }
   end
 
-  after_initialize :set_price, unless: :promotional?
+  scope :paid, -> { where(promotional: false) }
+  scope :promotional, -> { where(promotional: true) }
+
+  before_save :set_price, unless: :promotional?
+  after_initialize :set_quantity
 
   def set_price
     self.price = product.price
+  end
+
+  def set_quantity
+    self.quantity ||= 1
+  end
+
+  def total_price
+    price * quantity
   end
 
   def destroyable?
     !promotional?
   end
 
-  def destroy
-    raise PromotionalItemError, 'Promotional items cannot be destroyed by itself' unless destroyable?
+  def destroy(promo_bypass = false)
+    unless promo_bypass || destroyable?
+      raise PromotionalItemError,
+            <<-ES
+              Promotional items cannot be destroyed by destroy.
+              If you are sure what you're doing, use destroy_promotional! instead.
+            ES
+              .squish
 
-    super
+    end
+
+    # XXX:  () must be used for zeroing arguments
+    super()
+  end
+
+  def destroy_promotional!
+    destroy(true)
   end
 end
 

@@ -5,6 +5,7 @@ RSpec.describe Cart, type: :model do
   describe 'associations' do
     it { is_expected.to have_many :cart_items }
     it { is_expected.to have_many(:products).through(:cart_items) }
+    it { is_expected.to have_and_belong_to_many :promotion_rules }
   end
 
   describe '#add_product' do
@@ -29,7 +30,7 @@ RSpec.describe Cart, type: :model do
       before { subject.add_product(product) }
 
       it 'raises quantity of the cart item' do
-        expect { subject.add_product(product) }.to_not change { CartItem.count }
+        expect { subject.add_product(product) }.to_not(change { CartItem.count })
         expect { subject.add_product(product) }.to change { subject.cart_items.first.quantity }.by 1
       end
     end

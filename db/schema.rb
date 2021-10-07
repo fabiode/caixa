@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_05_212814) do
+ActiveRecord::Schema.define(version: 2021_10_06_160623) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,12 +35,37 @@ ActiveRecord::Schema.define(version: 2021_10_05_212814) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "carts_promotion_rules", id: false, force: :cascade do |t|
+    t.bigint "cart_id", null: false
+    t.bigint "promotion_rule_id", null: false
+    t.index ["cart_id"], name: "index_carts_promotion_rules_on_cart_id"
+    t.index ["promotion_rule_id"], name: "index_carts_promotion_rules_on_promotion_rule_id"
+  end
+
   create_table "products", force: :cascade do |t|
     t.string "name"
     t.string "description"
     t.string "sku"
     t.integer "price_cents", default: 0, null: false
     t.string "price_currency", default: "EUR", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "products_promotion_rules", id: false, force: :cascade do |t|
+    t.bigint "product_id", null: false
+    t.bigint "promotion_rule_id", null: false
+    t.index ["product_id"], name: "index_products_promotion_rules_on_product_id"
+    t.index ["promotion_rule_id"], name: "index_products_promotion_rules_on_promotion_rule_id"
+  end
+
+  create_table "promotion_rules", force: :cascade do |t|
+    t.string "name"
+    t.integer "amount_cents", default: 0, null: false
+    t.string "amount_currency", default: "EUR", null: false
+    t.decimal "percentage", precision: 5, scale: 2
+    t.integer "kind"
+    t.string "type"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
