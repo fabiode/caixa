@@ -85,4 +85,5 @@ docker-compose run caixa_api_test rspec spec
 
  - Extract promotion and cart item operation to a Service Object;
  - Setup cart creation using user session, so then each user will have a cart;
- - Frontend tests using Jest.
+ - Frontend tests using Jest;
+ - Split React cart code into smaller components.
